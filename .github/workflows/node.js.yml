@@ -22,7 +22,7 @@ jobs:
       run: npm ci
 
     - name: Build do projeto
-      run: npm run build
+      run: npm run build-only
 
     - name: Deploy via SSH
       uses: appleboy/ssh-action@v0.1.10
