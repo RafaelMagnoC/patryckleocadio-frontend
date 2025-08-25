@@ -22,16 +22,23 @@ jobs:
       run: npm ci
 
     - name: Build do projeto
-      run: npm run build
+      run: npm run build-only
 
-    - name: Deploy via SSH
+    - name: Enviar arquivos para VPS
+      uses: appleboy/scp-action@v0.1.5
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        source: "dist/*"
+        target: "/var/www/seu-projeto-frontend"
+
+    - name: Reiniciar Nginx
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
-          rm -rf /var/www/seu-projeto-frontend/*
-          mkdir -p /var/www/seu-projeto-frontend
-          cp -r dist/* /var/www/seu-projeto-frontend/
           sudo systemctl restart nginx
+
