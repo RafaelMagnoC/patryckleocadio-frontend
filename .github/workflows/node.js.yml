@@ -1,0 +1,37 @@
+name: Deploy Vue 3 App
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'npm'
+
+    - name: Instalar dependências
+      run: npm ci
+
+    - name: Build do projeto
+      run: npm run build
+
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          rm -rf /var/www/seu-projeto-frontend/*
+          mkdir -p /var/www/seu-projeto-frontend
+          cp -r dist/* /var/www/seu-projeto-frontend/
+          sudo systemctl restart nginx
