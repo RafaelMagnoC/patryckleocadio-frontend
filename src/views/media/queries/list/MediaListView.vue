@@ -28,7 +28,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 function openInNewWindow(midia: Midia) {
-    const url = `http://217.196.61.26:7235${midia.url}`
+    const url = `http://217.196.61.26:5000${midia.url}`
     const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
     window.open(url, '_blank', windowFeatures)
 }
@@ -49,7 +49,7 @@ const errorMessage = ref('')
 
 onMounted(async () => {
     try {
-        const response = await axios.get('http://217.196.61.26:7235/api/media', {
+        const response = await axios.get('http://217.196.61.26:5000/api/media', {
             withCredentials: true,
         })
 

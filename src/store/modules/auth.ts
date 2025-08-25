@@ -32,7 +32,7 @@ const actions = {
     async login({ commit }: any, payload: { email: string; password: string }) {
 
         try {
-            const res = await axios.post('http://217.196.61.26:7235/api/Auth', payload, { withCredentials: true })
+            const res = await axios.post('http://217.196.61.26:5000/api/Auth', payload, { withCredentials: true })
 
             const user = {
                 name: res.data.name,
