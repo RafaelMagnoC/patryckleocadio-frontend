@@ -1,0 +1,97 @@
+
+.login-screen
+    display: flex
+    width: 100vw
+    height: 100vh
+
+/* LEFT SIDE */
+
+.left-side__wrapper
+    background: url(@images/background-login.jpg)
+    background-size: cover
+    background-position: center
+    width: 80vw
+
+/* RIGHT SIDE */
+.right-side__wrapper
+    width: 20vw
+    min-width: 350px
+    height: 100%
+    padding: 3dvh
+
+.right-side-content__logo
+    text-align: center
+
+.right-side-content-logo__image
+    width: 250px
+    height: 250px
+
+.right-side-content__text
+    margin-top: 80px
+
+.right-side-content-text__login
+    font-size: 35px
+
+.right-side-content-text__description
+    margin-top: 32px
+
+.right-side-content__form
+    margin-top: 80px
+
+.input-custom:focus-within
+    box-shadow: 0 1px 5px rgba(60, 140, 200, 0.5)
+
+.btn
+    border-radius: 5px
+    width: 100%
+    min-width: 300px
+    height: 30px
+    border: none
+    border: solid 1px gray
+    margin-top: 10px
+    background: transparent
+    transition: ease-in-out 0.2s
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+
+.btn:hover
+    box-shadow: 0 1px 5px rgba(30, 70, 100, 0.5)
+    transition: ease-in-out
+    cursor: pointer
+    background-color: rgb(60, 140, 200)
+    color: #fff
+
+.login-options
+    height: 30px
+    margin-top: 10px
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+.login-rememberme
+    display: flex
+    align-items: center
+    gap: 10px
+
+.login-rememberme > span
+    font-size: 10px
+    font-weight: bold
+
+.forgot-password a
+    font-size: 10px
+    font-weight: bold
+    color: black
+
+@media only screen and (width <= 640px)
+    .login-screen
+        margin: 0 auto
+
+    .left-side__wrapper
+        display: none
+
+    .right-side__wrapper
+        width: 100vw
+        max-width: 450px
+        margin: 0 auto
