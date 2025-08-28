@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_HTTP;
+const API_URL = import.meta.env.VITE_API_URL_HTTP;
 
 const userFromStorage = localStorage.getItem('user')
 
@@ -45,26 +45,39 @@ const actions = {
             commit('SET_USER', user)
 
             localStorage.setItem('user', JSON.stringify(user))
+
         } catch (err: any) {
-            // extrai a mensagem de erro da API, que pode estar dentro de err.response.data
-            let message = 'Erro ao autenticar'
+            let errors: Array<{ propertyName: string; errorMessage: string }> = [];
 
             if (err.response?.data) {
-                if (typeof err.response.data === 'string') {
-                    message = err.response.data
-                } else if (typeof err.response.data === 'object') {
-                    // Se sua API retorna um objeto com campo 'message' ou 'errors'
-                    if (err.response.data.message) {
-                        message = err.response.data.message
-                    } else if (err.response.data.errors) {
-                        // Se é um objeto com vários erros, transforme em string
-                        message = JSON.stringify(err.response.data.errors)
-                    } else {
-                        message = JSON.stringify(err.response.data)
-                    }
+                const data = err.response.data;
+
+                // Caso seja um array direto vindo da API
+                if (Array.isArray(data)) {
+                    errors = data;
                 }
+
+                // Caso esteja dentro de um campo "errors"
+                else if (Array.isArray(data.errors)) {
+                    errors = data.errors;
+                }
+
+                // Caso seja só uma mensagem genérica
+                else if (typeof data.message === 'string') {
+                    errors = [{ propertyName: '', errorMessage: data.message }];
+                }
+
+                // Objeto desconhecido
+                else {
+                    errors = [{ propertyName: '', errorMessage: 'Credenciais inválidas.' }];
+                }
+            } else {
+                // Erro sem resposta da API
+                errors = [{ propertyName: '', errorMessage: 'Não foi possível conectar ao servidor.' }];
             }
-            throw new Error(message)
+
+            // Agora você lança um array de erros real
+            throw errors;
         }
     }
 }

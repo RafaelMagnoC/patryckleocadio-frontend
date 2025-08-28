@@ -7,18 +7,27 @@ import InputTextComponent from '@/components/inputs/text/InputTextComponent.vue'
 
 const email = ref('')
 const password = ref('')
-const errorMessage = ref('')
+const errorMessage = ref({
+    list: [] as Array<{ propertyName: string; errorMessage: string }>
+});
 const store = useStore()
 const router = useRouter()
 
 const handleLogin = async () => {
-    errorMessage.value = ''
+    errorMessage.value.list = []
     try {
         await store.dispatch('auth/login', { email: email.value, password: password.value })
 
         router.push('/home') // redireciona após login
     } catch (err: any) {
-        errorMessage.value = err.message || 'Credenciais inválidas'
+
+        if (Array.isArray(err)) {
+            errorMessage.value.list = err
+        } else {
+            errorMessage.value.list = [
+                { propertyName: '', errorMessage: 'Credenciais inválidas' }
+            ]
+        }
     }
 }
 </script>
@@ -44,9 +53,12 @@ const handleLogin = async () => {
 
                         <button type="submit" class="btn">Entrar</button>
 
-                        <div v-if="errorMessage" class="error-message">
-                            {{ errorMessage }}
+                        <div v-if="errorMessage.list.length" class="error-message">
+                            <span v-for="(err, index) in errorMessage.list" :key="index" class="alert-error">
+                                {{ err.errorMessage }}
+                            </span>
                         </div>
+
 
                         <div class="login-options">
                             <div class="login-rememberme">
