@@ -11,7 +11,7 @@
     <div v-else class="midia-rows">
       <div v-for="midia in midias" :key="midia.id" class="midia-row">
         <div class="midia-thumb" @click="openInNewWindow(midia)" style="cursor: pointer;">
-          <video v-if="isVideo(midia.contentType)" :src="getVideoUrl(midia.url)" width="140" height="80" muted
+          <video v-if="isVideo(midia.contentType)" :src="getVideoUrl(midia.fileName)" width="140" height="80" muted
             preload="metadata"></video>
         </div>
 
