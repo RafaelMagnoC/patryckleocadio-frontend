@@ -9,7 +9,7 @@ interface UserCreateDTO {
     password: string
     email: string
     birthDate: string
-    role: number
+    role: string
 }
 
 interface ValidationError {
@@ -28,14 +28,14 @@ const formData = ref<UserCreateDTO>({
     password: '',
     email: '',
     birthDate: '',
-    role: 0
+    role: ''
 })
 
 // Opções de roles (ajuste conforme seu enum)
 const roleOptions = [
-    { value: 0, label: 'Usuário' },
-    { value: 1, label: 'Admin' },
-    { value: 2, label: 'Moderador' }
+    { value: 'Admin', label: 'Administrador' },
+    { value: 'Collaborator', label: 'Colaborador' },
+    { value: 'Customer', label: 'Cliente' }
 ]
 
 const submitForm = async () => {
@@ -51,7 +51,7 @@ const submitForm = async () => {
 
         if (response.status === 201) {
             alert('Usuário criado com sucesso!')
-            router.push('/users') // Redireciona para a lista de usuários
+            router.push('/home/user') // Redireciona para a lista de usuários
         }
     } catch (error: any) {
         if (error.response?.status === 400) {
@@ -72,7 +72,7 @@ const resetForm = () => {
         password: '',
         email: '',
         birthDate: '',
-        role: 0
+        role: ''
     }
     errors.value = []
 }

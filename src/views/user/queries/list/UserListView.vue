@@ -82,12 +82,27 @@ function editarUsuario(user: Usuario) {
   alert(`Editar usuário ${user.name}`)
 }
 
-function excluirUsuario(user: Usuario) {
-  if (confirm(`Deseja realmente excluir ${user.name}?`)) {
-    // Aqui você faria um DELETE com axios se quiser
-    alert(`Usuário ${user.name} excluído`)
+async function excluirUsuario(user: Usuario) {
+  const confirmacao = confirm(`Deseja realmente excluir ${user.name} ${user.lastName}?`)
+
+  if (!confirmacao) return
+
+  try {
+    await axios.delete(`${import.meta.env.VITE_API_URL_HTTP}/api/user/${user.id}`, {
+      withCredentials: true
+    })
+
+    // Remove da lista
+    users.value = users.value.filter(u => u.id !== user.id)
+
+    // Fecha o menu de ações
+    activeActionId.value = null
+  } catch (error) {
+    console.error('Erro ao excluir usuário:', error)
+    alert('Não foi possível excluir o usuário. Tente novamente.')
   }
 }
+
 </script>
 
 
