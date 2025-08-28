@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+console.log("UserDetailsView carregado");
+</script>
 
 
 <template>
-  <section></section>
+  <div>User Details View</div>
 </template>
 
 <style lang="sass" scoped></style>
