@@ -61,7 +61,7 @@ function getVideoUrl(relativePath: string) {
 }
 
 function openInNewWindow(midia: Midia) {
-  const url = getVideoUrl(midia.url)
+  const url = getVideoUrl(midia.fileName)
   const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
   window.open(url, '_blank', windowFeatures)
 }
