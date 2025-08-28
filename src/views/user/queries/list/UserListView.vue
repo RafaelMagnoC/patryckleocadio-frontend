@@ -1,7 +1,7 @@
 <template>
   <div class="user-list">
     <div class="header">
-      <h2>Minhas mídias</h2>
+      <h2>Usuários</h2>
       <router-link to="/home/user/create" class="novo-user-button">Novo usuário</router-link>
     </div>
     <div v-if="loading">Carregando usuários...</div>
