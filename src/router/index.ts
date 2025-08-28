@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/login/LoginView.vue'
 import store from '@/store'
 
+import dashboard from '@/views/dashboard/dashboard.routers'
+import media from '@/views/media/media.routers'
+import user from '@/views/user/user.routers'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -12,7 +16,7 @@ const router = createRouter({
     },
     {
       path: '/home',
-      component: () => import('@/views/dashboard/DashboardView.vue'),
+      component: () => import('@/views/home/HomeView.vue'),
       beforeEnter: (to, from, next) => {
         const isLoggedIn = store.getters['auth/isLoggedIn']
         if (!isLoggedIn) {
@@ -21,23 +25,7 @@ const router = createRouter({
           next()
         }
       },
-      children: [
-        {
-          path: 'midia',
-          name: 'midia-list',
-          component: () => import('@/views/media/queries/list/MediaListView.vue'),
-        },
-        {
-          path: 'midia/nova',
-          name: 'midia-create',
-          component: () => import('@/views/media/commands/create/MediaCreateView.vue'),
-        },
-        {
-          path: 'user',
-          name: 'user-create',
-          component: () => import('@/views/user/commands/create/UserCreateView.vue'),
-        }
-      ],
+      children: [{ path: '', redirect: 'home/dashboard' }, ...dashboard, ...media, ...user],
     },
   ],
 })
