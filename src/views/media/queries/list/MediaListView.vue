@@ -57,7 +57,7 @@ function isVideo(contentType: string) {
 }
 
 function getVideoUrl(relativePath: string) {
-  return `${import.meta.env.VITE_API_URL_HTTP}${relativePath}`
+  return `${import.meta.env.VITE_API_URL_HTTP}/${relativePath}`
 }
 
 function openInNewWindow(midia: Midia) {
