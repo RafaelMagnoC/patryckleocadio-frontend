@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const API_URL = import.meta.env.VITE_API_HTTP;
+
 const userFromStorage = localStorage.getItem('user')
 
 interface User {
@@ -32,7 +34,7 @@ const actions = {
     async login({ commit }: any, payload: { email: string; password: string }) {
 
         try {
-            const res = await axios.post('http://217.196.61.26/api/Auth', payload, { withCredentials: true })
+            const res = await axios.post(`${API_URL}/api/auth`, payload, { withCredentials: true })
 
             const user = {
                 name: res.data.name,
@@ -73,4 +75,5 @@ export default {
     mutations,
     actions,
     getters,
+    API_URL
 }

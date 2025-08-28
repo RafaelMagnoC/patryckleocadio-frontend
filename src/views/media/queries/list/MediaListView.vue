@@ -26,9 +26,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import API_URL from '@/store/modules/auth'
 
 function openInNewWindow(midia: Midia) {
-    const url = `http://217.196.61.26${midia.url}`
+    const url = `${API_URL}/${midia.url}`
     const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
     window.open(url, '_blank', windowFeatures)
 }
@@ -49,7 +50,7 @@ const errorMessage = ref('')
 
 onMounted(async () => {
     try {
-        const response = await axios.get('http://217.196.61.26/api/media', {
+        const response = await axios.get(`${API_URL}/api/media`, {
             withCredentials: true,
         })
 

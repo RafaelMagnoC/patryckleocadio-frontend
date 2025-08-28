@@ -13,7 +13,6 @@ const router = useRouter()
 
 const handleLogin = async () => {
     errorMessage.value = ''
-    console.log('Valores antes de enviar:', email.value, password.value) 
     try {
         await store.dispatch('auth/login', { email: email.value, password: password.value })
 
