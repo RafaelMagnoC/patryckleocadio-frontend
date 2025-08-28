@@ -61,7 +61,7 @@ async function handleSubmit() {
         formData.append('description', form.value.description)
         formData.append('file', selectedFile.value)
 
-        const response = await axios.post('http://217.196.61.26/api/media', formData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_HTTP}/api/media`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

@@ -14,7 +14,7 @@
                 <div class="sidebar-content__menu">
                     <ul>
                         <li>
-                            <router-link to="/home/usuario" class="active">
+                            <router-link to="/home/user" class="active">
                                 <span class="las la-user-alt"></span>
                                 <small>Usuário</small>
                             </router-link>

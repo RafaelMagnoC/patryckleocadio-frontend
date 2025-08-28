@@ -24,12 +24,11 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import API_URL from '@/store/modules/auth'
+import { ref, onMounted } from 'vue'
 
 function openInNewWindow(midia: Midia) {
-    const url = `${API_URL}/${midia.url}`
+    const url = `${import.meta.env.VITE_API_URL_HTTP}${midia.url}`
     const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
     window.open(url, '_blank', windowFeatures)
 }
@@ -50,11 +49,13 @@ const errorMessage = ref('')
 
 onMounted(async () => {
     try {
-        const response = await axios.get(`${API_URL}/api/media`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTP}/api/media`, {
             withCredentials: true,
         })
 
         midias.value = response.data
+
+        console.log(midias.value)
     } catch (error: any) {
         errorMessage.value = 'Erro ao buscar as mídias.'
     } finally {
@@ -67,51 +68,51 @@ function isVideo(contentType: string) {
 }
 </script>
 
-<style scoped>
-.midia-list {
-    padding: 1rem;
-}
+<style lang="sass" scoped>
+    .midia-list
+        padding: 1rem
 
-.grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-}
 
-.midia-card {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    width: 220px;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-}
+    .grid 
+        display: flex
+        flex-wrap: wrap
+        gap: 16px
 
-.midia-info h4 {
-    margin: 0.5rem 0;
-}
 
-.error {
-    color: red;
-}
+    .midia-card
+        border: 1px solid #ccc
+        padding: 1rem
+        width: 220px
+        border-radius: 6px
+        background-color: #f9f9f9
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
 
-.nova-midia-button {
-    background-color: #007bff;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease;
-}
+    .midia-info h4 
+        margin: 0.5rem 0
 
-.nova-midia-button:hover {
-    background-color: #0056b3;
-}
+
+    .error 
+        color: red
+
+
+    .header 
+        display: flex
+        justify-content: space-between
+        align-items: center
+        margin-bottom: 1rem
+
+
+    .nova-midia-button 
+        background-color: #007bff
+        color: white
+        padding: 0.5rem 1rem
+        border-radius: 4px
+        text-decoration: none
+        font-size: 0.9rem
+        transition: background-color 0.2s ease
+
+
+    .nova-midia-button:hover 
+        background-color: #0056b3
+
 </style>

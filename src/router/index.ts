@@ -32,6 +32,11 @@ const router = createRouter({
           name: 'midia-create',
           component: () => import('@/views/media/commands/create/MediaCreateView.vue'),
         },
+        {
+          path: 'user',
+          name: 'user-create',
+          component: () => import('@/views/user/commands/create/UserCreateView.vue'),
+        }
       ],
     },
   ],

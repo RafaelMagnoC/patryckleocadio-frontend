@@ -1,0 +1,56 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+body
+    font-family: 'Inter', sans-serif
+    background: #f8f9fa
+    color: #333
+    line-height: 1.6
+
+// Estilos responsivos
+@media (max-width: 768px)
+.user-create-container
+    margin: 1rem
+    padding: 1.5rem
+
+.header h1
+    font-size: 1.5rem
+
+.form-row
+    grid-template-columns: 1fr !important
+
+.form-actions
+    flex-direction: column
+
+// Animações
+.fade-enter-active,
+.fade-leave-active
+    transition: opacity 0.3s ease
+
+.fade-enter-from,
+.fade-leave-to
+    opacity: 0
+
+// Estados de loading
+.loading
+    position: relative
+    pointer-events: none
+
+&::after
+    content: ''
+    position: absolute
+    top: 50%
+    left: 50%
+    width: 20px
+    height: 20px
+    margin: -10px 0 0 -10px
+    border: 2px solid #ffffff
+    border-radius: 50%
+    border-top-color: transparent
+    animation: spin 1s linear infinite
+
+@keyframes spin
+    to
+        transform: rotate(360deg)
