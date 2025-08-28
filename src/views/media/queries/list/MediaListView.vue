@@ -78,9 +78,24 @@ function editarMidia(midia: Midia) {
   alert(`Editar mídia: ${midia.title}`)
 }
 
-function excluirMidia(midia: Midia) {
-  alert(`Excluir mídia: ${midia.title}`)
+async function excluirMidia(midia: Midia) {
+  const confirmacao = confirm(`Tem certeza que deseja excluir a mídia "${midia.title}"?`)
+
+  if (!confirmacao) return
+
+  try {
+    await axios.delete(`${import.meta.env.VITE_API_URL_HTTP}/api/media/${midia.id}`, {
+      withCredentials: true
+    })
+
+    // Remover da lista local
+    midias.value = midias.value.filter(m => m.id !== midia.id)
+  } catch (error) {
+    console.error('Erro ao excluir mídia:', error)
+    alert('Não foi possível excluir a mídia. Tente novamente.')
+  }
 }
+
 
 onMounted(async () => {
   try {
