@@ -25,6 +25,13 @@
                                 <small>Mídias</small>
                             </router-link>
                         </li>
+
+                        <li>
+                            <router-link to="/home/player" exact>
+                                <span class="las la-image"></span>
+                                <small>Player</small>
+                            </router-link>
+                        </li>
                     </ul>
                 </div>
             </div>
