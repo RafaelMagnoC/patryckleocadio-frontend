@@ -57,7 +57,7 @@ function isVideo(contentType: string) {
 }
 
 function getVideoUrl(relativePath: string) {
-  return `${import.meta.env.VITE_API_URL_HTTP}/${relativePath}`
+  return `${import.meta.env.VITE_API_URL_HTTPS}/${relativePath}`
 }
 
 function openInNewWindow(midia: Midia) {
@@ -84,7 +84,7 @@ async function excluirMidia(midia: Midia) {
   if (!confirmacao) return
 
   try {
-    await axios.delete(`${import.meta.env.VITE_API_URL_HTTP}/api/media/${midia.id}`, {
+    await axios.delete(`${import.meta.env.VITE_API_URL_HTTPS}/api/media/${midia.id}`, {
       withCredentials: true
     })
 
@@ -99,7 +99,7 @@ async function excluirMidia(midia: Midia) {
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTP}/api/media`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTPS}/api/media`, {
       withCredentials: true
     })
 
