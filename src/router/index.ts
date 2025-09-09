@@ -25,31 +25,7 @@ const router = createRouter({
           next()
         }
       },
-<<<<<<< HEAD
-      children: [
-        {
-          path: 'midia',
-          name: 'midia-list',
-          component: () => import('@/views/media/queries/list/MediaListView.vue'),
-        },
-        {
-          path: 'midia/nova',
-          name: 'midia-create',
-          component: () => import('@/views/media/commands/create/MediaCreateView.vue'),
-        },
-        {
-          path: 'user',
-          name: 'user-create',
-          component: () => import('@/views/user/commands/create/UserCreateView.vue'),
-        },{
-          path: 'player',
-          name: 'player',
-          component: () => import('@/views/player/PlayerView.vue'),
-        }
-      ],
-=======
       children: [{ path: '', redirect: 'home/dashboard' }, ...dashboard, ...media, ...user],
->>>>>>> 1f4f8ad448dedaaf8d39b609ce1eb8b498f018de
     },
   ],
 })
