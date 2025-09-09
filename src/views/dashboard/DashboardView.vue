@@ -1,7 +1,7 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
+<<<<<<< HEAD
     <div>
         <input type="checkbox" id="menu-toggle">
         <section class="sidebar__wrapper">
@@ -90,8 +90,14 @@
             </main>
         </section>
     </div>
+=======
+  <div class="page-header">
+    <h1>Dashboard</h1>
+    <small>Home / Dashboard</small>
+  </div>
+>>>>>>> 1f4f8ad448dedaaf8d39b609ce1eb8b498f018de
 </template>
 
 <style lang="sass" scoped>
-    @use 'DashboardView.sass'
+  @use './DashboardView.sass'
 </style>
