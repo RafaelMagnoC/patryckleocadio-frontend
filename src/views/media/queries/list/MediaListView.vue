@@ -11,7 +11,7 @@
     <div v-else class="midia-rows">
       <div v-for="midia in midias" :key="midia.id" class="midia-row">
         <div class="midia-thumb" @click="openInNewWindow(midia)" style="cursor: pointer;">
-          <video v-if="isVideo(midia.contentType)" :src="getVideoUrl(midia.fileName)" width="140" height="80" muted
+          <video v-if="isVideo(midia.contentType)" :src="getVideoUrl(midia.url)" width="140" height="80" muted
             preload="metadata"></video>
         </div>
 
@@ -57,7 +57,7 @@ function isVideo(contentType: string) {
 }
 
 function getVideoUrl(relativePath: string) {
-  return `${import.meta.env.VITE_API_URL_HTTPS}/${relativePath}`
+  return `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${relativePath}`
 }
 
 function openInNewWindow(midia: Midia) {
@@ -84,7 +84,7 @@ async function excluirMidia(midia: Midia) {
   if (!confirmacao) return
 
   try {
-    await axios.delete(`${import.meta.env.VITE_API_URL_HTTPS}/api/media/${midia.id}`, {
+    await axios.delete(`${import.meta.env.VITE_API_URL_HTTPS}/api/video/${midia.id}`, {
       withCredentials: true
     })
 
@@ -99,7 +99,7 @@ async function excluirMidia(midia: Midia) {
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTPS}/api/media`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTPS}/api/videos`, {
       withCredentials: true
     })
 
