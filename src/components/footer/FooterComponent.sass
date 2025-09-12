@@ -1,0 +1,44 @@
+/* FOOTER SECTION */
+.footer__wrapper
+    position: fixed
+    height: 90px
+    width: 250px
+    left: 0
+    bottom: 0
+    z-index: 100
+    background: var(--color-more-dark)
+    transition: left 300ms
+    align-content: end
+
+.footer__content
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+
+.footer-content__text > small
+    color: #fff
+
+#menu-toggle:checked ~ .footer__wrapper
+    width: 60px
+
+#menu-toggle:checked ~ .footer__wrapper
+    width: 60px
+
+#menu-toggle:checked ~ .footer__wrapper > .footer__content
+    display: none
+
+@media only screen and (max-width: 768px)
+
+.footer__wrapper
+    left: -250px
+    z-index: 90
+    transition: none
+
+    #menu-toggle:checked ~ .footer__wrapper
+        width: 100%
+        left: 0px
+
+    #menu-toggle:checked ~ .footer__wrapper > .footer__content
+        display: flex

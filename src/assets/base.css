@@ -4,9 +4,9 @@
   text-decoration: none;
   list-style-type: none;
   box-sizing: border-box;
-  font-family: var(--font-default);
+  font-family: var(--font-primary);
 }
 
 :root {
-  --font-default: 'Trebuchet MS';
+  --font-primary: 'Trebuchet MS';
 }
