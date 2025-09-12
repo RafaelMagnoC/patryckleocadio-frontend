@@ -23,6 +23,12 @@ import LogoComponent from '../logo/LogoComponent.vue';
                 </li>
                 <li class="menu__list-item">
                     <router-link to="/home/midia" exact class="menu__item-nav">
+                        <i class="fa-solid fa-dumbbell"></i>
+                        <small>Exercícios</small>
+                    </router-link>
+                </li>
+                <li class="menu__list-item">
+                    <router-link to="/home/midia" exact class="menu__item-nav">
                         <i class="fas fa-image"></i>
                         <small>Vídeos</small>
                     </router-link>
