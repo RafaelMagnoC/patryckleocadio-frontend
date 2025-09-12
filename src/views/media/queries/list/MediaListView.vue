@@ -11,7 +11,7 @@
     <div v-else class="midia-rows">
       <div v-for="midia in midias" :key="midia.id" class="midia-row">
         <div class="midia-thumb" @click="openInNewWindow(midia)" style="cursor: pointer;">
-          <video v-if="isVideo(midia.contentType)" :src="getVideoUrl(midia.url)" width="140" height="80" muted
+          <video v-if="isVideo(midia.contentType)" :src="getVideoUrl(midia.fileName)" width="140" height="80" muted
             preload="metadata"></video>
         </div>
 
@@ -56,12 +56,13 @@ function isVideo(contentType: string) {
   return contentType.startsWith('video/')
 }
 
-function getVideoUrl(relativePath: string) {
-  return `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${relativePath}`
+function getVideoUrl(name: string) {
+  return `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${name}`
 }
 
 function openInNewWindow(midia: Midia) {
   const url = getVideoUrl(midia.fileName)
+  console.log(url)
   const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
   window.open(url, '_blank', windowFeatures)
 }
