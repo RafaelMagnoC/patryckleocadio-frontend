@@ -80,7 +80,7 @@ const actions = {
   async logout({ commit }: any) {
     try {
       // Chamada para a API de logout
-      await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true })
+      await axios.post(`${API_URL}/api/auth/logout`, {}, { withCredentials: true })
 
       // Limpa o usuário do state e do localStorage
       commit('SET_USER', null)
