@@ -57,11 +57,11 @@ function isVideo(contentType: string) {
 }
 
 function getVideoUrl(name: string) {
-  return `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${name}`
+  return `${import.meta.env.VITE_API_URL_HTTPS}/api/video/${name}`
 }
 
 function openInNewWindow(midia: Midia) {
-  const url = getVideoUrl(midia.fileName)
+  const url = `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${midia.fileName}`
   console.log(url)
   const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
   window.open(url, '_blank', windowFeatures)

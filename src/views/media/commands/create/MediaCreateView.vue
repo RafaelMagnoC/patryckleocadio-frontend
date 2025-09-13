@@ -61,7 +61,7 @@ async function handleSubmit() {
         formData.append('description', form.value.description)
         formData.append('file', selectedFile.value)
 
-        const response = await axios.post(`${import.meta.env.VITE_API_URL_HTTP}/api/media`, formData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL_HTTPS}/api/video`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
