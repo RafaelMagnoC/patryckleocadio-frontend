@@ -4,6 +4,7 @@ import draggable from 'vuedraggable'
 import CardVideoPlaylistComponent from '@/components/cards/card-video-playlist/CardVideoPlaylistComponent.vue'
 import CardVideoSearchComponent from '@/components/cards/card-video-search/CardVideoSearchComponent.vue'
 import TagComponent from '@/components/tag/TagComponent.vue'
+import { useRoute, useRouter } from 'vue-router'
 
 
 
@@ -74,16 +75,40 @@ function onAddPreview(evt: any) {
     previewVideo.value = evt.item.__draggable_context.element
 }
 
+const route = useRoute()
+const router = useRouter()
+const tvId = ref(Number(route.params.tvId) || 1)
+
+// TV selecionada
+const selectedTV = ref(Number(route.params.tvId) || 1)
+
+// Atualiza a rota ao clicar em outra TV
+function selectTV(tvNumber: number) {
+    selectedTV.value = tvNumber
+    router.push({ name: 'player', params: { tvId: tvNumber } })
+}
+
+watch(
+    () => route.params.tvId,
+    (newTvId) => {
+        tvId.value = Number(newTvId) || 1
+        // Aqui você pode resetar ou carregar a playlist específica dessa TV
+        playlistVideos.value = [] // ou carregar de algum backend/localStorage
+    },
+    { immediate: true }
+)
+
+
 </script>
 
 <template>
     <section class="player">
         <header class="player__header">
             <div class="TV-Buttons__wrapper">
-                <button class="TV-Buttons__button">Tv 1</button>
-                <button class="TV-Buttons__button">Tv 2</button>
-                <button class="TV-Buttons__button">Tv 3</button>
-                <button class="TV-Buttons__button">Tv 4</button>
+                <button v-for="tv in [1, 2, 3, 4]" :key="tv" @click="selectTV(tv)"
+                    :class="{ 'selected': selectedTV === tv }">
+                    TV {{ tv }}
+                </button>
             </div>
         </header>
         <div>
