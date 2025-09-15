@@ -34,7 +34,7 @@ import LogoComponent from '../logo/LogoComponent.vue';
                     </router-link>
                 </li>
                 <li class="menu__list-item">
-                    <router-link to="/home/midia" exact class="menu__item-nav">
+                    <router-link to="/home/player" exact class="menu__item-nav">
                         <i class="fa-solid fa-tv"></i>
                         <small>Player</small>
                     </router-link>

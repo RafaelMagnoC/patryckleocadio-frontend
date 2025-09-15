@@ -59,7 +59,7 @@ const errorMessage = ref('')
 onMounted(async () => {
   loading.value = true
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTP}/api/user`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTPS}/api/user`, {
       withCredentials: true,
     })
     users.value = response.data
@@ -88,7 +88,7 @@ async function excluirUsuario(user: Usuario) {
   if (!confirmacao) return
 
   try {
-    await axios.delete(`${import.meta.env.VITE_API_URL_HTTP}/api/user/${user.id}`, {
+    await axios.delete(`${import.meta.env.VITE_API_URL_HTTPS}/api/user/${user.id}`, {
       withCredentials: true
     })
 

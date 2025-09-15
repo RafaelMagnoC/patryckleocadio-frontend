@@ -62,7 +62,6 @@ function getVideoUrl(name: string) {
 
 function openInNewWindow(midia: Midia) {
   const url = `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${midia.fileName}`
-  console.log(url)
   const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
   window.open(url, '_blank', windowFeatures)
 }
@@ -92,7 +91,6 @@ async function excluirMidia(midia: Midia) {
     // Remover da lista local
     midias.value = midias.value.filter(m => m.id !== midia.id)
   } catch (error) {
-    console.error('Erro ao excluir mídia:', error)
     alert('Não foi possível excluir a mídia. Tente novamente.')
   }
 }
