@@ -6,6 +6,7 @@ import dashboard from '@/views/dashboard/dashboard.routers'
 import media from '@/views/media/media.routers'
 import user from '@/views/user/user.routers'
 import player from '@/views/player/player.router'
+import tv from '@/views/tv/tv.router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,8 +27,9 @@ const router = createRouter({
           next()
         }
       },
-      children: [{ path: '', redirect: 'home/dashboard' }, ...dashboard, ...media, ...user, ...player],
+      children: [{ path: '', redirect: 'home/dashboard' }, ...dashboard, ...media, ...user, ...player,],
     },
+    ...tv
   ],
 })
 

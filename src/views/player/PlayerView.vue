@@ -1,7 +1,78 @@
 <script setup lang="ts">
-import CardVideoPlaylistComponent from '@/components/cards/card-video-playlist/CardVideoPlaylistComponent.vue';
-import CardVideoSearchComponent from '@/components/cards/card-video-search/CardVideoSearchComponent.vue';
-import TagComponent from '@/components/tag/TagComponent.vue';
+import { ref, watch } from 'vue'
+import draggable from 'vuedraggable'
+import CardVideoPlaylistComponent from '@/components/cards/card-video-playlist/CardVideoPlaylistComponent.vue'
+import CardVideoSearchComponent from '@/components/cards/card-video-search/CardVideoSearchComponent.vue'
+import TagComponent from '@/components/tag/TagComponent.vue'
+
+
+
+// lista inicial de vídeos (normalmente virá do backend)
+const availableVideos = ref([
+    { id: 1, name: "Alongamento de Ombro", category: "alongamento", url: "https://www.w3schools.com/html/mov_bbb.mp4" },
+    { id: 2, name: "Flexão de braço", category: "força", url: "https://www.w3schools.com/html/mov_bbb.mp4" },
+    { id: 3, name: "Agachamento", category: "pernas", url: "https://www.w3schools.com/html/mov_bbb.mp4" },
+])
+
+// playlist começa vazia
+const playlistVideos = ref<any[]>([])
+
+// vídeo em pré-visualização
+const previewVideo = ref<any | null>(null)
+const previewList = ref<any[]>([])
+
+function removePreview() {
+    previewVideo.value = null
+    previewList.value = []
+}
+
+// Mantém previewVideo sincronizado com previewList
+watch(previewList, (newVal) => {
+    previewVideo.value = newVal[0] || null
+})
+
+let playerWindow: Window | null = null
+
+function openPlayer() {
+    if (!playlistVideos.value.length) {
+        alert("A playlist está vazia!")
+        return
+    }
+
+    // abre nova janela com rota /tv
+    playerWindow = window.open('/tv', 'PlaylistPlayer', 'width=800,height=600')
+
+    // envia playlist para a janela assim que carregar
+    const interval = setInterval(() => {
+        if (playerWindow && !playerWindow.closed) {
+            const cleanPlaylist = JSON.parse(JSON.stringify(playlistVideos.value)) // 🔥 transforma em objeto simples
+            playerWindow.postMessage({ type: 'LOAD_PLAYLIST', playlist: cleanPlaylist }, '*')
+            clearInterval(interval)
+        }
+    }, 500)
+}
+function pausePlayer() {
+    if (playerWindow && !playerWindow.closed) {
+        playerWindow.postMessage({ type: 'PAUSE' }, '*')
+    }
+}
+
+function stopPlayer() {
+    if (playerWindow && !playerWindow.closed) {
+        playerWindow.close()
+        playerWindow = null
+    }
+}
+
+function onAddPreview(evt: any) {
+    if (previewVideo.value) {
+        // já existe um vídeo, cancela a adição
+        evt.preventDefault() // evita que o draggable insira outro
+        alert('Remova o vídeo atual antes de adicionar outro.')
+        return
+    }
+    previewVideo.value = evt.item.__draggable_context.element
+}
 
 </script>
 
@@ -33,48 +104,52 @@ import TagComponent from '@/components/tag/TagComponent.vue';
 
             <div class="content__wrapper">
 
-                <div class="content__main">
-                    <div class="content-main__video">
-                        <video controls class="video-play">
-                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                            </source>
-                        </video>
+                <div class="content-main__video"
+                    style="border:1px dashed #ccc; padding:10px; border-radius:8px; min-height:200px; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+
+                    <draggable :list="previewVideo ? [previewVideo] : []"
+                        :group="{ name: 'videos', pull: false, put: true }" item-key="id"
+                        :clone="(el: any) => ({ ...el })" @add="onAddPreview">
+                        <template #item="{ element }">
+                            <div v-if="element">
+                                <video controls autoplay style="width:100%; max-height:250px; border-radius:8px;">
+                                    <source :src="element.url" type="video/mp4" />
+                                </video>
+                                <button @click="removePreview"
+                                    style="margin-top:8px; background:#f44; color:#fff; padding:5px 10px; border:none; border-radius:4px; cursor:pointer;">
+                                    Remover vídeo
+                                </button>
+                            </div>
+                        </template>
+                    </draggable>
+
+                    <div v-if="!previewVideo">
+                        <p style="color:#666">Nenhum vídeo selecionado</p>
                     </div>
                 </div>
 
+
                 <div class="content__videos-search">
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
-                    <CardVideoSearchComponent name="alongamento de ombro" category="alongamento" />
+                    <draggable v-model="availableVideos" :group="{ name: 'videos', pull: 'clone', put: false }"
+                        item-key="id">
+                        <template #item="{ element }">
+                            <CardVideoSearchComponent :name="element.name" :category="element.category" />
+                        </template>
+                    </draggable>
                 </div>
 
                 <div class="content-main__playlist">
-                    <h2 class="content-main-playlist__title">Playlist <span>▶️</span><span>⏯️</span><span>⏹️</span></h2>
-                    <div class="playlist-card-videos">
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                        <CardVideoPlaylistComponent />
-                    </div>
+                    <h2 class="content-main-playlist__title">Playlist</h2>
+                    <span @click="openPlayer" style="cursor:pointer;" class="icon-play">▶️</span>
+                    <span @click="pausePlayer" style="cursor:pointer" class="icon-play">⏯️</span>
+                    <span @click="stopPlayer" style="cursor:pointer" class="icon-play">⏹️</span>
+                    <draggable v-model="playlistVideos" :group="{ name: 'videos', pull: false, put: true }"
+                        item-key="id"
+                        style="display: flex; border: solid 1px #ccc; border-radius: 8px; margin-top: 10px;">
+                        <template #item="{ element }">
+                            <CardVideoPlaylistComponent :video="element" muted />
+                        </template>
+                    </draggable>
                 </div>
             </div>
         </div>
@@ -83,100 +158,4 @@ import TagComponent from '@/components/tag/TagComponent.vue';
 
 <style lang="sass" scoped>
     @use 'PlayerView.sass'
-
-    .search__wrapper
-        display: flex
-        justify-content: center
-        height: 60px
-
-    #search-video
-        padding: 10px
-        border-radius: 8px
-        border: solid 1px #ccc
-        min-width: 250px
-        transition: ease-in-out .4s
-
-        &:placeholder-shown
-            text-align: center
-
-        &:focus
-            box-shadow: 1px 2px 1px 2px blue
-            border: none
-            outline: none
-
-    .btn-search
-        background: transparent
-        border: solid 1px #ccc
-        border-radius: 8px
-        padding: 10px
-        cursor: pointer
-        transition: ease-in-out .4s
-
-        &:hover
-            background: blue
-            color: #fff 
-
-    .player
-        padding: 20px
-        margin: 0 auto
-        width: 100%
-        height: 100%
-
-    .tags__wrapper
-        display: flex
-        gap: 10px
-        padding: 10px 0
-
-    .content__wrapper
-        display: grid
-        grid-template-columns: 80% 20%
-        grid-template-rows: 80% 20%
-        grid-template-areas: "video-play video-search" "playlist video-search"
-        gap: 20px
-        height: 700px
-
-    .content__main
-        height: auto
-        width: 100%
-        grid-area: video-play
-
-    .content-main__video
-        background: black
-        width: 100%
-        height: 100%
-        display: flex
-        justify-content: center
-        border-radius: 8px
-
-    .video-play
-        height: auto
-        width: 100%
-        border-radius: 8px
-
-    .content__videos-search
-        display: flex
-        flex-direction: column
-        gap: 10px
-        overflow-y: auto
-        grid-area: video-search
-
-    .content-main__playlist
-        grid-area: playlist
-        width: 100%
-        max-width: 1320px
-        height: 300px        
-
-    .content-main-playlist__title
-        margin-top: 20px
-
-    .playlist-card-videos
-        border-radius: 8px
-        height: 100%
-        width: 100%
-        display: flex
-        align-items: center
-        overflow-x: auto        
-
-    
-
 </style>
