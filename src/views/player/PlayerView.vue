@@ -106,7 +106,7 @@ watch(
         <header class="player__header">
             <div class="TV-Buttons__wrapper">
                 <button v-for="tv in [1, 2, 3, 4]" :key="tv" @click="selectTV(tv)"
-                    :class="{ 'selected': selectedTV === tv }">
+                    :class="{ 'selected': selectedTV === tv }" class="btn-tv">
                     TV {{ tv }}
                 </button>
             </div>
@@ -175,6 +175,10 @@ watch(
                             <CardVideoPlaylistComponent :video="element" muted />
                         </template>
                     </draggable>
+                    <div v-if="playlistVideos.length < 1"
+                        style="height: 100px; border: solid 1px #ccc; border-radius: 8px; padding: 10px;">
+                        <p style="color:#666">Nenhum vídeo selecionado</p>
+                    </div>
                 </div>
             </div>
         </div>
