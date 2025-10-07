@@ -2,9 +2,9 @@
 import { ref, onMounted } from 'vue'
 import type { GroupReadDTO } from '@/views/group/dtos/GroupReadDTO'
 import { GroupServices } from '@/views/group/services/Group.services'
-import { CategoryService } from '@/views/category/services/Category.services'
 import type { CategoryCreateDTO } from '@/views/category/dtos/CategoryCreateDTO'
 import router from '@/router'
+import { CategoryService } from '../services/Category.services'
 
 // Serviços
 const groupService = new GroupServices()

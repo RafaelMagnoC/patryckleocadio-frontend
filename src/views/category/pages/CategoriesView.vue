@@ -49,7 +49,6 @@
 import { defineComponent, ref, onMounted } from "vue";
 import type { CategoryReadWithGroupsDTO } from "../dtos/CategoryReadDTO";
 import { CategoryService } from "../services/Category.services";
-import router from "@/router";
 
 export default defineComponent({
   setup() {
