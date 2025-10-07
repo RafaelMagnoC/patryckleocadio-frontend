@@ -4,17 +4,17 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 interface UserCreateDTO {
-    name: string
-    lastName: string
-    password: string
-    email: string
-    birthDate: string
-    role: string
+  name: string
+  lastName: string
+  password: string
+  email: string
+  birthDate: string
+  role: string
 }
 
 interface ValidationError {
-    propertyName: string
-    errorMessage: string
+  propertyName: string
+  errorMessage: string
 }
 
 const router = useRouter()
@@ -23,134 +23,134 @@ const errors = ref<ValidationError[]>([])
 
 // Dados do formulário
 const formData = ref<UserCreateDTO>({
+  name: '',
+  lastName: '',
+  password: '',
+  email: '',
+  birthDate: '',
+  role: ''
+})
+
+// Opções de roles (ajuste conforme seu enum)
+const roleOptions = [
+  { value: 'Admin', label: 'Administrador' },
+  { value: 'Collaborator', label: 'Colaborador' },
+  { value: 'Customer', label: 'Cliente' }
+]
+
+const submitForm = async () => {
+  loading.value = true
+  errors.value = []
+
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL_HTTP}/user`, formData.value, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.status === 201) {
+      alert('Usuário criado com sucesso!')
+      router.push('/home/user') // Redireciona para a lista de usuários
+    }
+  } catch (error: any) {
+    if (error.response?.status === 400) {
+      errors.value = error.response.data
+    } else {
+      alert('Erro ao criar usuário. Tente novamente.')
+      console.error('Erro:', error)
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+const resetForm = () => {
+  formData.value = {
     name: '',
     lastName: '',
     password: '',
     email: '',
     birthDate: '',
     role: ''
-})
-
-// Opções de roles (ajuste conforme seu enum)
-const roleOptions = [
-    { value: 'Admin', label: 'Administrador' },
-    { value: 'Collaborator', label: 'Colaborador' },
-    { value: 'Customer', label: 'Cliente' }
-]
-
-const submitForm = async () => {
-    loading.value = true
-    errors.value = []
-
-    try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL_HTTP}/api/user`, formData.value, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-
-        if (response.status === 201) {
-            alert('Usuário criado com sucesso!')
-            router.push('/home/user') // Redireciona para a lista de usuários
-        }
-    } catch (error: any) {
-        if (error.response?.status === 400) {
-            errors.value = error.response.data
-        } else {
-            alert('Erro ao criar usuário. Tente novamente.')
-            console.error('Erro:', error)
-        }
-    } finally {
-        loading.value = false
-    }
-}
-
-const resetForm = () => {
-    formData.value = {
-        name: '',
-        lastName: '',
-        password: '',
-        email: '',
-        birthDate: '',
-        role: ''
-    }
-    errors.value = []
+  }
+  errors.value = []
 }
 </script>
 
 <template>
-    <div class="user-create-container">
-        <div class="header">
-            <h1>Criar Novo Usuário</h1>
-            <p>Preencha os dados abaixo para criar um novo usuário</p>
+  <div class="user-create-container">
+    <div class="header">
+      <h1>Criar Novo Usuário</h1>
+      <p>Preencha os dados abaixo para criar um novo usuário</p>
+    </div>
+
+    <form @submit.prevent="submitForm" class="user-form">
+      <!-- Mensagens de erro gerais -->
+      <div v-if="errors.length > 0" class="error-messages">
+        <div v-for="(error, index) in errors" :key="index" class="error-message">
+          {{ error.propertyName }}: {{ error.errorMessage }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Nome *</label>
+          <input id="name" v-model="formData.name" type="text" required
+            :class="{ 'error': errors.some(e => e.propertyName === 'Name') }">
         </div>
 
-        <form @submit.prevent="submitForm" class="user-form">
-            <!-- Mensagens de erro gerais -->
-            <div v-if="errors.length > 0" class="error-messages">
-                <div v-for="(error, index) in errors" :key="index" class="error-message">
-                    {{ error.propertyName }}: {{ error.errorMessage }}
-                </div>
-            </div>
+        <div class="form-group">
+          <label for="lastName">Sobrenome *</label>
+          <input id="lastName" v-model="formData.lastName" type="text" required
+            :class="{ 'error': errors.some(e => e.propertyName === 'LastName') }">
+        </div>
+      </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="name">Nome *</label>
-                    <input id="name" v-model="formData.name" type="text" required
-                        :class="{ 'error': errors.some(e => e.propertyName === 'Name') }">
-                </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input id="email" v-model="formData.email" type="email" required
+            :class="{ 'error': errors.some(e => e.propertyName === 'Email') }">
+        </div>
 
-                <div class="form-group">
-                    <label for="lastName">Sobrenome *</label>
-                    <input id="lastName" v-model="formData.lastName" type="text" required
-                        :class="{ 'error': errors.some(e => e.propertyName === 'LastName') }">
-                </div>
-            </div>
+        <div class="form-group">
+          <label for="password">Senha *</label>
+          <input id="password" v-model="formData.password" type="password" required
+            :class="{ 'error': errors.some(e => e.propertyName === 'Password') }">
+        </div>
+      </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input id="email" v-model="formData.email" type="email" required
-                        :class="{ 'error': errors.some(e => e.propertyName === 'Email') }">
-                </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="birthDate">Data de Nascimento *</label>
+          <input id="birthDate" v-model="formData.birthDate" type="date" required
+            :class="{ 'error': errors.some(e => e.propertyName === 'BirthDate') }">
+        </div>
 
-                <div class="form-group">
-                    <label for="password">Senha *</label>
-                    <input id="password" v-model="formData.password" type="password" required
-                        :class="{ 'error': errors.some(e => e.propertyName === 'Password') }">
-                </div>
-            </div>
+        <div class="form-group">
+          <label for="role">Tipo de Usuário *</label>
+          <select id="role" v-model="formData.role" required
+            :class="{ 'error': errors.some(e => e.propertyName === 'Role') }">
+            <option value="" disabled>Selecione um tipo</option>
+            <option v-for="option in roleOptions" :key="option.value" :value="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+      </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="birthDate">Data de Nascimento *</label>
-                    <input id="birthDate" v-model="formData.birthDate" type="date" required
-                        :class="{ 'error': errors.some(e => e.propertyName === 'BirthDate') }">
-                </div>
-
-                <div class="form-group">
-                    <label for="role">Tipo de Usuário *</label>
-                    <select id="role" v-model="formData.role" required
-                        :class="{ 'error': errors.some(e => e.propertyName === 'Role') }">
-                        <option value="" disabled>Selecione um tipo</option>
-                        <option v-for="option in roleOptions" :key="option.value" :value="option.value">
-                            {{ option.label }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="button" @click="resetForm" class="btn btn-secondary" :disabled="loading">
-                    Limpar
-                </button>
-                <button type="submit" class="btn btn-primary" :disabled="loading">
-                    <span v-if="loading">Criando...</span>
-                    <span v-else>Criar Usuário</span>
-                </button>
-            </div>
-        </form>
-    </div>
+      <div class="form-actions">
+        <button type="button" @click="resetForm" class="btn btn-secondary" :disabled="loading">
+          Limpar
+        </button>
+        <button type="submit" class="btn btn-primary" :disabled="loading">
+          <span v-if="loading">Criando...</span>
+          <span v-else>Criar Usuário</span>
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <style lang="sass" scoped>

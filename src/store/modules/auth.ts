@@ -31,7 +31,7 @@ const getters = {
 const actions = {
   async login({ commit }: any, payload: { email: string; password: string }) {
     try {
-      const res = await axios.post(`${API_URL}/api/auth`, payload, { withCredentials: true })
+      const res = await axios.post(`${API_URL}/auth`, payload, { withCredentials: true })
 
       const user = {
         name: res.data.name,
@@ -80,7 +80,7 @@ const actions = {
   async logout({ commit }: any) {
     try {
       // Chamada para a API de logout
-      await axios.post(`${API_URL}/api/auth/logout`, {}, { withCredentials: true })
+      await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true })
 
       // Limpa o usuário do state e do localStorage
       commit('SET_USER', null)

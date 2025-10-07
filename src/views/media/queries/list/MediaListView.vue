@@ -57,11 +57,11 @@ function isVideo(contentType: string) {
 }
 
 function getVideoUrl(name: string) {
-  return `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${name}`
+  return `${import.meta.env.VITE_API_URL_HTTPS}/video/play/${name}`
 }
 
 function openInNewWindow(midia: Midia) {
-  const url = `${import.meta.env.VITE_API_URL_HTTPS}/api/video/play/${midia.fileName}`
+  const url = `${import.meta.env.VITE_API_URL_HTTPS}/video/play/${midia.fileName}`
   const windowFeatures = "toolbar=no, menubar=no, width=800, height=600, top=100, left=100, resizable=yes, scrollbars=yes"
   window.open(url, '_blank', windowFeatures)
 }
@@ -84,21 +84,21 @@ async function excluirMidia(midia: Midia) {
   if (!confirmacao) return
 
   try {
-    await axios.delete(`${import.meta.env.VITE_API_URL_HTTPS}/api/video/${midia.fileName}`, {
+    await axios.delete(`${import.meta.env.VITE_API_URL_HTTPS}/video/${midia.fileName}`, {
       withCredentials: true
     })
 
     // Remover da lista local
     midias.value = midias.value.filter(m => m.id !== midia.id)
   } catch (error) {
-    alert('Não foi possível excluir a mídia. Tente novamente.')
+    alert('Não foi possível excluir a mídia. Tente novamente.' + error)
   }
 }
 
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTPS}/api/videos`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL_HTTPS}/videos`, {
       withCredentials: true
     })
 
@@ -108,7 +108,7 @@ onMounted(async () => {
       grupo: m.grupo || 'Membros Inferiores'  // Exemplo grupo/região do corpo
     }))
   } catch (error: any) {
-    errorMessage.value = 'Erro ao buscar as mídias.'
+    errorMessage.value = 'Erro ao buscar as mídias.' + error
   } finally {
     loading.value = false
   }

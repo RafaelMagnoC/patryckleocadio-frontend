@@ -7,7 +7,7 @@ import media from '@/views/media/media.routers'
 import user from '@/views/user/user.routers'
 import player from '@/views/player/player.router'
 import tv from '@/views/tv/tv.router'
-import category from '@/views/category/routes/category.router'
+import category from '@/views/category/routes/Category.router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
