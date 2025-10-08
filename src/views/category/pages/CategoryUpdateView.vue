@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { CategoryUpdateDTO } from '@/views/category/dtos/CategoryUpdateDTO'
 import type { CategoryReadDTO } from '@/views/category/dtos/CategoryReadDTO'
-import { CategoryService } from '../services/Category.services'
+import { CategoryService } from '../services/CategoryServices'
 
 const categoryService = new CategoryService()
 const route = useRoute()

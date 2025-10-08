@@ -48,7 +48,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import type { CategoryReadWithGroupsDTO } from "../dtos/CategoryReadDTO";
-import { CategoryService } from "../services/Category.services";
+import { CategoryService } from "../services/CategoryServices";
 
 export default defineComponent({
   setup() {

@@ -4,7 +4,7 @@ import type { GroupReadDTO } from '@/views/group/dtos/GroupReadDTO'
 import { GroupServices } from '@/views/group/services/Group.services'
 import type { CategoryCreateDTO } from '@/views/category/dtos/CategoryCreateDTO'
 import router from '@/router'
-import { CategoryService } from '../services/Category.services'
+import { CategoryService } from '../services/CategoryServices'
 
 // Serviços
 const groupService = new GroupServices()

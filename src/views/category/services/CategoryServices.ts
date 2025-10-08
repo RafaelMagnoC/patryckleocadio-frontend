@@ -2,7 +2,7 @@ import { request } from "@/api/request";
 import type { CategoryCreateDTO } from "../dtos/CategoryCreateDTO";
 import type { CategoryReadDTO } from "../dtos/CategoryReadDTO";
 import type { CategoryUpdateDTO } from "../dtos/CategoryUpdateDTO";
-import type { ICategoryServices } from "./ICategory.services";
+import type { ICategoryServices } from "./ICategoryServices";
 
 export class CategoryService implements ICategoryServices {
 
