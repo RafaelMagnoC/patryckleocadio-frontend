@@ -43,7 +43,7 @@ const submitForm = async () => {
   errors.value = []
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL_HTTP}/user`, formData.value, {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL_HTTPS}/user`, formData.value, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -51,7 +51,7 @@ const submitForm = async () => {
 
     if (response.status === 201) {
       alert('Usuário criado com sucesso!')
-      router.push('/home/user') // Redireciona para a lista de usuários
+      router.push('/home/usuarios') // Redireciona para a lista de usuários
     }
   } catch (error: any) {
     if (error.response?.status === 400) {
