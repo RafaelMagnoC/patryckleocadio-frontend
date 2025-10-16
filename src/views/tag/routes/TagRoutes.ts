@@ -13,20 +13,6 @@ export default [
     meta: { requiresAuth: true },
   },
   {
-    path: 'tag/:id',
-    name: 'tag-id',
-    component: () => import('@/views/tag/pages/TagView.vue'),
-    meta: { requiresAuth: true },
-    props: true,
-  },
-  {
-    path: 'tag/:nome',
-    name: 'tag-name',
-    component: () => import('@/views/tag/pages/TagView.vue'),
-    meta: { requiresAuth: true },
-    props: true,
-  },
-  {
     path: 'tag/edicao/:id',
     name: 'tag-update',
     component: () => import('@/views/tag/pages/TagUpdateView.vue'),

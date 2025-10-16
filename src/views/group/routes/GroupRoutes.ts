@@ -13,20 +13,6 @@ export default [
     meta: { requiresAuth: true },
   },
   {
-    path: 'grupo/:id',
-    name: 'group-id',
-    component: () => import('@/views/category/pages/CategoryView.vue'),
-    meta: { requiresAuth: true },
-    props: true,
-  },
-  {
-    path: 'grupo/:nome',
-    name: 'group-name',
-    component: () => import('@/views/category/pages/CategoryView.vue'),
-    meta: { requiresAuth: true },
-    props: true,
-  },
-  {
     path: 'grupo/edicao:id/',
     name: 'group-update',
     component: () => import('@/views/group/pages/GroupUpdateView.vue'),
