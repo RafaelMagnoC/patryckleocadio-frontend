@@ -5,7 +5,10 @@ import CardVideoPlaylistComponent from '@/components/cards/card-video-playlist/C
 import CardVideoSearchComponent from '@/components/cards/card-video-search/CardVideoSearchComponent.vue'
 import TagComponent from '@/components/tag/TagComponent.vue'
 import { useRoute, useRouter } from 'vue-router'
+import { TagServices } from '../tag/services/TagServices'
 
+
+const tagServices = new TagServices();
 
 
 // lista inicial de vídeos (normalmente virá do backend)
@@ -88,6 +91,8 @@ function selectTV(tvNumber: number) {
     router.push({ name: 'player', params: { tvId: tvNumber } })
 }
 
+const tags = await tagServices.tags();
+
 watch(
     () => route.params.tvId,
     (newTvId) => {
@@ -121,10 +126,8 @@ watch(
                 </div>
             </div>
 
-            <div class="tags__wrapper">
-                <TagComponent text="#Tudo" />
-                <TagComponent text="#Ombro" />
-                <TagComponent text="#Pernas" />
+            <div class="tags__wrapper" v-for="tag in tags" :key="tag.id">
+                <TagComponent text="{{ tag.name }}" />
             </div>
 
             <div class="content__wrapper">
