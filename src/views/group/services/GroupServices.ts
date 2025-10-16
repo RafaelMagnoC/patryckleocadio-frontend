@@ -27,7 +27,7 @@ export class GroupServices implements IGroupServices {
   }
   async delete(id: string): Promise<void> {
 
-    await request(`category/${id}`, { method: 'DELETE' })
+    await request(`group/${id}`, { method: 'DELETE' })
   }
 
 }

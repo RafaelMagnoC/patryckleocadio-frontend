@@ -1,83 +1,76 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import type { GroupReadDTO } from '../dtos/GroupReadDTO'
-import type { GroupUpdateDTO } from '../dtos/GroupUpdateDTO'
-import { GroupServices } from '../services/GroupServices'
+import { ref, onMounted } from 'vue'
+import router from '@/router'
+import type { TagReadDTO } from '../dtos/TagReadDTO'
+import { TagServices } from '../services/TagServices'
+import type { TagCreateDTO } from '../dtos/TagCreateDTO';
 
-const groupServices = new GroupServices()
-const route = useRoute()
-const router = useRouter()
+const tagServices = new TagServices();
 
-const group = ref<GroupReadDTO | null>(null)
+
+const name = ref('')
+const description = ref('')
+
+// Lista de grupos
+const tags = ref<TagReadDTO[]>([])
 const loading = ref(true)
 const error = ref('')
 
-const form = ref<GroupUpdateDTO>({
-  name: '',
-  description: ''
-})
-
+// Buscar grupos ao montar
 onMounted(async () => {
   try {
-    const id = route.params.id as string
-    const data = await groupServices.groupById(id)
-    group.value = data
-
-    // Preenche o form
-    form.value.name = data.name
-    form.value.description = data.description ?? ''
+    tags.value = await tagServices.tags()
   } catch (err: any) {
-    error.value = err.message || 'Erro ao carregar o grupo.'
+    error.value = err.message || 'Erro ao carregar tags.'
   } finally {
     loading.value = false
   }
 })
 
-async function handleSubmit() {
-  if (!group.value) return
+// Função para enviar o formulário
+const submitForm = async () => {
+  const dto: TagCreateDTO = {
+    name: name.value,
+    description: description.value
+  }
+
   try {
-    await groupServices.update(group.value.id, form.value)
-    alert('Grupo atualizado com sucesso!')
-    router.push('/home/grupos')
+    await tagServices.create(dto)
+    alert('Tag criada com sucesso!')
+    router.push('/home/tags')
   } catch (err: any) {
-    alert(err.message || 'Erro ao atualizar grupo.')
+    alert(err.message || 'Erro ao criar tag.')
   }
 }
 </script>
 
-<template>
-  <div class="category-edit">
-    <h1>Editar Grupo</h1>
 
-    <form class="category-form" @submit.prevent="handleSubmit" v-if="!loading && group">
+<template>
+  <div class="category-create">
+    <h1>Criar Nova Tag</h1>
+
+    <form class="category-form" @submit.prevent="submitForm">
       <div class="form-group">
-        <label for="name">Nome do Grupo</label>
-        <input id="name" type="text" v-model="form.name"
-          placeholder="Digite o nome do grupo. Máximo de 20 caracteres" />
+        <label for="name">Nome da Tag</label>
+        <input id="name" type="text" v-model="name" placeholder="Ex: Braço, Perna, Ombro...máximo de 20 caracteres" />
       </div>
 
       <div class="form-group">
         <label for="description">Descrição</label>
-        <textarea id="description" v-model="form.description" rows="3"
-          placeholder="Digite a descrição. Máximo de 50 caracteres"></textarea>
+        <textarea id="description" rows="3" v-model="description"
+          placeholder="Descreva brevemente a tag...máximo de 50 caracteres"></textarea>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn-secondary" @click="router.push('/home/grupos')">
-          Cancelar
-        </button>
-        <button type="submit" class="btn-primary">Salvar Alterações</button>
+        <button type="button" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar Tag</button>
       </div>
     </form>
-
-    <p v-else-if="loading">Carregando...</p>
-    <p v-else-if="error">{{ error }}</p>
   </div>
 </template>
 
 <style scoped>
-.category-edit {
+.category-create {
   padding: 32px;
   font-family: system-ui, sans-serif;
   color: #333;
@@ -92,6 +85,7 @@ h1 {
   text-align: center;
 }
 
+/* Formulário */
 .category-form {
   background: #fff;
   border-radius: 12px;
@@ -102,6 +96,7 @@ h1 {
   gap: 20px;
 }
 
+/* Campos */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -115,7 +110,8 @@ label {
 }
 
 input,
-textarea {
+textarea,
+select {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px 12px;
@@ -125,11 +121,19 @@ textarea {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
+/* Texto auxiliar */
+small {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Ações */
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -151,6 +155,7 @@ button:hover {
   transform: translateY(-1px);
 }
 
+/* Botões específicos */
 .btn-primary {
   background-color: #3b82f6;
   color: #fff;
@@ -169,8 +174,9 @@ button:hover {
   background-color: #d1d5db;
 }
 
+/* Responsivo */
 @media (max-width: 600px) {
-  .category-edit {
+  .category-create {
     padding: 20px;
   }
 

@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import type { GroupReadDTO } from '../dtos/GroupReadDTO'
-import type { GroupUpdateDTO } from '../dtos/GroupUpdateDTO'
-import { GroupServices } from '../services/GroupServices'
+import { TagServices } from '../services/TagServices'
+import type { TagReadDTO } from '../dtos/TagReadDTO'
+import type { TagUpdateDTO } from '../dtos/TagUpdateDTO'
 
-const groupServices = new GroupServices()
+const tagServices = new TagServices()
 const route = useRoute()
 const router = useRouter()
 
-const group = ref<GroupReadDTO | null>(null)
+const tag = ref<TagReadDTO | null>(null)
 const loading = ref(true)
 const error = ref('')
 
-const form = ref<GroupUpdateDTO>({
+const form = ref<TagUpdateDTO>({
   name: '',
   description: ''
 })
@@ -21,40 +21,40 @@ const form = ref<GroupUpdateDTO>({
 onMounted(async () => {
   try {
     const id = route.params.id as string
-    const data = await groupServices.groupById(id)
-    group.value = data
+    const data = await tagServices.tagById(id)
+    tag.value = data
 
     // Preenche o form
     form.value.name = data.name
     form.value.description = data.description ?? ''
   } catch (err: any) {
-    error.value = err.message || 'Erro ao carregar o grupo.'
+    error.value = err.message || 'Erro ao carregar tag.'
   } finally {
     loading.value = false
   }
 })
 
 async function handleSubmit() {
-  if (!group.value) return
+  if (!tag.value) return
   try {
-    await groupServices.update(group.value.id, form.value)
-    alert('Grupo atualizado com sucesso!')
-    router.push('/home/grupos')
+    await tagServices.update(tag.value.id, form.value)
+    alert('Tag atualizada com sucesso!')
+    router.push('/home/tags')
   } catch (err: any) {
-    alert(err.message || 'Erro ao atualizar grupo.')
+    alert(err.message || 'Erro ao atualizar tag.')
   }
 }
 </script>
 
 <template>
   <div class="category-edit">
-    <h1>Editar Grupo</h1>
+    <h1>Editar Tag</h1>
 
-    <form class="category-form" @submit.prevent="handleSubmit" v-if="!loading && group">
+    <form class="category-form" @submit.prevent="handleSubmit" v-if="!loading && tag">
       <div class="form-group">
-        <label for="name">Nome do Grupo</label>
+        <label for="name">Nome da Tag</label>
         <input id="name" type="text" v-model="form.name"
-          placeholder="Digite o nome do grupo. Máximo de 20 caracteres" />
+          placeholder="Digite o nome da tag. Máximo de 20 caracteres" />
       </div>
 
       <div class="form-group">
@@ -64,7 +64,7 @@ async function handleSubmit() {
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn-secondary" @click="router.push('/home/grupos')">
+        <button type="button" class="btn-secondary" @click="router.push('/home/tags')">
           Cancelar
         </button>
         <button type="submit" class="btn-primary">Salvar Alterações</button>

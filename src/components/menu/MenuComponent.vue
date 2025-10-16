@@ -9,7 +9,7 @@ import LogoComponent from '../logo/LogoComponent.vue';
     <LogoComponent />
     <div class="menu__items">
       <ul class="menu__items-list">
-        <li class="menu__list-item" style="display: none;">
+        <li class="menu__list-item">
           <router-link to="/home/dashboard" class="menu__item-nav active">
             <i class="fas fa-tachometer-alt"></i>
             <small>Dashboard</small>
@@ -21,7 +21,7 @@ import LogoComponent from '../logo/LogoComponent.vue';
             <small>Usuário</small>
           </router-link>
         </li>
-        <li class="menu__list-item">
+        <li class="menu__list-item" style="display: none;">
           <router-link to="/home/videos" exact class="menu__item-nav">
             <i class="fa-solid fa-dumbbell"></i>
             <small>Exercícios</small>

@@ -29,7 +29,7 @@ export default [
   {
     path: 'grupo/edicao:id/',
     name: 'group-update',
-    component: () => import('@/views/category/pages/CategoryUpdateView.vue'),
+    component: () => import('@/views/group/pages/GroupUpdateView.vue'),
     meta: { requiresAuth: true },
     props: true,
   },

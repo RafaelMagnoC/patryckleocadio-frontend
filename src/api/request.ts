@@ -48,6 +48,7 @@ export async function request<TResponse = unknown>(
 
   // Checa se o conteúdo não é vazio antes de chamar json
   const text = await response.text();
+
   if (!text) return undefined as unknown as TResponse;
 
   return JSON.parse(text) as TResponse;

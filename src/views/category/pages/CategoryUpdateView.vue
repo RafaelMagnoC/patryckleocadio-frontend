@@ -39,7 +39,7 @@ async function handleSubmit() {
   try {
     await categoryService.update(category.value.id, form.value)
     alert('Categoria atualizada com sucesso!')
-    router.push('/home/categories')
+    router.push('/home/categorias')
   } catch (err: any) {
     alert(err.message || 'Erro ao atualizar categoria.')
   }

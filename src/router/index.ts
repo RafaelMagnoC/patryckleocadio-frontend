@@ -9,6 +9,7 @@ import player from '@/views/player/player.router'
 import tv from '@/views/tv/tv.router'
 import Category from '@/views/category/routes/CategoryRoutes'
 import Group from '@/views/group/routes/GroupRoutes'
+import Tag from '@/views/tag/routes/TagRoutes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,7 +37,8 @@ const router = createRouter({
         ...user,
         ...player,
         ...Category,
-        ...Group
+        ...Group,
+        ...Tag
       ],
     },
     ...tv,

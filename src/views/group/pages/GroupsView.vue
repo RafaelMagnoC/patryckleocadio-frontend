@@ -234,7 +234,7 @@ onMounted(loadGroups);
 /* Dropdown */
 .dropdown {
   display: none;
-  position: absolute;
+  position: fixed;
   right: 0;
   margin-top: 6px;
   background: white;
@@ -254,6 +254,7 @@ onMounted(loadGroups);
   color: #333;
   transition: background 0.5s;
   display: block;
+  text-align: center;
 }
 
 .dropdown li:hover {
