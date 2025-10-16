@@ -4,6 +4,7 @@ export class GroupReadDTO {
   id!: string;
   name!: string;
   description?: string;
+  status!: string;
 }
 
 export class GroupReadWithCategoriesDTO extends GroupReadDTO {

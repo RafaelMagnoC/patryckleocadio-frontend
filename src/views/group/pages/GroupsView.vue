@@ -1,41 +1,32 @@
 <template>
   <div class="categories-container">
     <h1>Lista de Categorias</h1>
-    <router-link to="categoria/criacao" class="create-btn" style="margin: 10px 0; display: block;">+ Nova
-      Categoria</router-link>
+    <router-link to="grupo/criacao" class="create-btn" style="margin: 10px 0; display: block;">+ Novo
+      Grupo</router-link>
     <div class="table-wrapper">
       <table class="category-table">
         <thead>
           <tr>
             <th>Nome</th>
             <th>Descrição</th>
-            <th>Grupos</th>
             <th>Situação</th>
             <th class="text-right">Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="category in categories" :key="category.id">
-            <td>{{ category.name }}</td>
-            <td>{{ category.description }}</td>
-            <td>
-              <div class="groups">
-                <template v-if="category.groups && category.groups.length > 0">
-                  <span class="group-badge" v-for="group in category.groups" :key="group.id">{{ group.name }}</span>
-                </template>
-                <span v-else class="group-badge" style="color: red;">N/H</span>
-              </div>
-            </td>
-            <td>{{ category.status }}</td>
+          <tr v-for="group in groups" :key="group.id">
+            <td>{{ group.name }}</td>
+            <td>{{ group.description }}</td>
+            <td>{{ group.status }}</td>
             <td class="text-right">
               <div class="actions">
                 <button class="action-btn" @click="handleMenu($event)">⋮</button>
                 <ul class="dropdown hide">
                   <li>
-                    <router-link :to="{ name: 'category-update', params: { id: category.id } }"
+                    <router-link :to="{ name: 'group-update', params: { id: group.id } }"
                       class="create-btn">Editar</router-link>
                   </li>
-                  <li class="danger" @click="deleteCategory(category)">Excluir</li>
+                  <li class="danger" @click="deleteCategory(group)">Excluir</li>
                 </ul>
               </div>
             </td>
@@ -48,38 +39,38 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import type { CategoryReadWithGroupsDTO } from "../dtos/CategoryReadDTO";
-import { CategoryService } from "../services/CategoryServices";
+import type { GroupReadDTO } from "../dtos/GroupReadDTO";
+import { GroupServices } from "../services/GroupServices";
 
-const categories = ref<CategoryReadWithGroupsDTO[]>([]);
+const groups = ref<GroupReadDTO[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
 
-const categoryService = new CategoryService();
+const groupServices = new GroupServices();
 
-const loadCategories = async () => {
+const loadGroups = async () => {
   loading.value = true;
   error.value = null;
 
   try {
-    categories.value = await categoryService.categories();
+    groups.value = await groupServices.groups();
   } catch (err) {
-    error.value = "Erro ao carregar categorias: " + err;
+    error.value = "Erro ao carregar os grupos: " + err;
   } finally {
     loading.value = false;
   }
 };
 
-const deleteCategory = async (category: CategoryReadWithGroupsDTO) => {
-  const confirmacao = confirm(`Tem certeza que deseja excluir a categoria "${category.name}"?`);
+const deleteCategory = async (group: GroupReadDTO) => {
+  const confirmacao = confirm(`Tem certeza que deseja excluir a categoria "${group.name}"?`);
   if (!confirmacao) return;
 
   try {
-    await categoryService.delete(category.id);
+    await groupServices.delete(group.id);
     alert("Excluído com sucesso");
-    await loadCategories();
+    await loadGroups();
   } catch (error) {
-    alert("Não foi possível excluir a categoria. Tente novamente. " + error);
+    alert("Não foi possível excluir o grupo. Tente novamente. " + error);
   }
 };
 
@@ -124,7 +115,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', onDocumentClick);
 });
-onMounted(loadCategories);
+onMounted(loadGroups);
 </script>
 
 <style scoped>

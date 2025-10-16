@@ -64,7 +64,7 @@ async function handleSubmit() {
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn-secondary" @click="router.push('/home/categories')">
+        <button type="button" class="btn-secondary" @click="router.push('/home/categorias')">
           Cancelar
         </button>
         <button type="submit" class="btn-primary">Salvar Alterações</button>

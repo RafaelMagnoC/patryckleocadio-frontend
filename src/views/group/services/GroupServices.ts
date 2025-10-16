@@ -1,7 +1,7 @@
 import { request } from "@/api/request";
 import type { GroupCreateDTO } from "../dtos/GroupCreateDTO";
 import type { GroupReadWithCategoriesDTO } from "../dtos/GroupReadDTO";
-import type { IGroupServices } from "./IGroup.services";
+import type { IGroupServices } from "./IGroupServices";
 
 export class GroupServices implements IGroupServices {
 

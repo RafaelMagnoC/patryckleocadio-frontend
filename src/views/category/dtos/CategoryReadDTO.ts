@@ -4,6 +4,7 @@ export class CategoryReadDTO {
   id!: string;
   name!: string;
   description?: string;
+  status!: string
 }
 
 export class CategoryReadWithGroupsDTO extends CategoryReadDTO {

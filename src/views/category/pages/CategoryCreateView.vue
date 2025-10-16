@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { GroupReadDTO } from '@/views/group/dtos/GroupReadDTO'
-import { GroupServices } from '@/views/group/services/Group.services'
+import { GroupServices } from '@/views/group/services/GroupServices'
 import type { CategoryCreateDTO } from '@/views/category/dtos/CategoryCreateDTO'
 import router from '@/router'
 import { CategoryService } from '../services/CategoryServices'
@@ -42,7 +42,7 @@ const submitForm = async () => {
   try {
     await categoryService.create(dto)
     alert('Categoria criada com sucesso!')
-    router.push('/home/categories')
+    router.push('/home/categorias')
   } catch (err: any) {
     alert(err.message || 'Erro ao criar categoria.')
   }
