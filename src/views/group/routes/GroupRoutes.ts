@@ -9,7 +9,7 @@ export default [
   {
     path: 'grupo/criacao',
     name: 'group-create',
-    component: () => import('@/views/category/pages/CategoryCreateView.vue'),
+    component: () => import('@/views/group/pages/GroupCreateView.vue'),
     meta: { requiresAuth: true },
   },
   {

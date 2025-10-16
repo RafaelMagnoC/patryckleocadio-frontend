@@ -35,7 +35,7 @@ export async function request<TResponse = unknown>(
 
     // Se for array de erros do FluentValidation
     if (Array.isArray(errorBody)) {
-      message = errorBody.map((e: any) => `${e.propertyName}: ${e.errorMessage}`).join('\n');
+      message = errorBody.map((e: any) => `${e.errorMessage}`).join('\n');
     } else if (errorBody.message) {
       message = errorBody.message;
     }
