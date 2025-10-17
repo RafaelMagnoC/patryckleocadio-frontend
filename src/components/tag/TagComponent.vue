@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
     text: String
 })
 </script>
@@ -7,7 +7,7 @@ const props = defineProps({
 
 <template>
     <div class="tag">
-        <p>{{ text }}</p>
+        <p>#{{ text }}</p>
     </div>
 </template>
 

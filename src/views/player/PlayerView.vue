@@ -5,7 +5,11 @@ import CardVideoPlaylistComponent from '@/components/cards/card-video-playlist/C
 import CardVideoSearchComponent from '@/components/cards/card-video-search/CardVideoSearchComponent.vue'
 import TagComponent from '@/components/tag/TagComponent.vue'
 import { useRoute, useRouter } from 'vue-router'
+import { tagComposable } from "@/views/tag/composable/TagComposable"
 
+const { tags } = tagComposable();
+
+console.log(`funcao: ${tags}`)
 // lista inicial de vídeos (normalmente virá do backend)
 const availableVideos = ref([
     { id: 1, name: "Alongamento de Ombro", category: "alongamento", url: "https://www.w3schools.com/html/mov_bbb.mp4" },
@@ -119,8 +123,8 @@ watch(
                 </div>
             </div>
 
-            <div class="tags__wrapper">
-                <TagComponent text="#Ombro" />
+            <div class="tags__wrapper" v-for="tag in tags" :key="tag.id">
+                <TagComponent :text="tag.name" />
             </div>
 
             <div class="content__wrapper">

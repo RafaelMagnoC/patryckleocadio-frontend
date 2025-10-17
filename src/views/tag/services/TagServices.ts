@@ -13,7 +13,6 @@ export class TagServices implements ITagServices {
 
   async tagById(id: string): Promise<TagReadDTO> {
 
-    console.log(id)
     return await request(`tag/${id}`, { method: 'GET' })
   }
 
