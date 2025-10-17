@@ -10,8 +10,6 @@ export function tagComposable() {
 
   onMounted(async () => {
     tags.value = await tagServices.tags()
-
-    console.log(tags.value)
   })
 
   return { tags,  tagComposable}
